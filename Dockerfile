@@ -1,8 +1,8 @@
 FROM gradle:8.7
 
-WORKDIR /app
+WORKDIR .
 
-COPY /app .
+COPY src src
 
 RUN gradle installDist
 
