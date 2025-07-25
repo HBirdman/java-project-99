@@ -2,7 +2,7 @@ FROM gradle:8.7
 
 WORKDIR /java-project-99
 
-COPY src src
+COPY . .
 
 RUN gradle installDist
 
