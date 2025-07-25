@@ -1,9 +1,9 @@
 FROM gradle:8.7
 
-WORKDIR /java-project-99
+WORKDIR /app
 
-COPY . .
+COPY /app .
 
 RUN gradle installDist
 
-CMD build/install/java-project-99/bin/java-project-99
+CMD build/install/app/bin/app
