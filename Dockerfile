@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN ./gradlew installDist
+RUN gradle installDist
 
 CMD ["java", "-jar", "app-0.0.1-SNAPSHOT.jar"]
 
