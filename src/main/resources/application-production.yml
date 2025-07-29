@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: taskManager
+  datasource:
+    url: postgresql://task_manager_l1r0_user:nZNgjPWlDmVsoiPcLdqcmsTva13jU2v1@dpg-d24fmpje5dus73aa0mc0-a.frankfurt-postgres.render.com/task_manager_l1r0
+    username: task_manager_l1r0_user
+    password: "nZNgjPWlDmVsoiPcLdqcmsTva13jU2v1"
+    driver-class-name: org.postgresql.Driver
