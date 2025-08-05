@@ -12,8 +12,10 @@ ENV PATH=$PATH:$GRADLE_HOME/bin
 
 WORKDIR /app
 
-COPY /app .
+COPY / .
 
 RUN gradle installDist
 
-CMD ./build/install/java-project-99/bin/java-project-99
+EXPOSE 8080
+
+CMD ["java", "-jar", "app-0.0.1-SNAPSHOT.jar"]
