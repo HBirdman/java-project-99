@@ -12,6 +12,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @RestController
+@EnableMethodSecurity
 @RequestMapping("/api")
 public class UserController {
 
@@ -63,6 +66,7 @@ public class UserController {
     }
 
     @PutMapping(path = "/users/{id}", produces = "application/json")
+    @PreAuthorize("@userUtils.isOwner(#id)")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO update(@RequestBody @Valid UserUpdateDTO dto, @PathVariable Long id) {
         User user = userRepository.findById(id)
@@ -73,6 +77,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/users/{id}", produces = "application/json")
+    @PreAuthorize("@userUtils.isOwner(#id)")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         userRepository.deleteById(id);

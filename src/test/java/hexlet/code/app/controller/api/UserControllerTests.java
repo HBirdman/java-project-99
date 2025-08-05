@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -74,11 +75,12 @@ public class UserControllerTests {
 
         testUser = Instancio.of(modelGenerator.getUserModel()).create();
         userRepository.save(testUser);
+        token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
 
 //    @Test
 //    public void testIndex() throws Exception {
-//        var response = mockMvc.perform(get("/api/users"))
+//        var response = mockMvc.perform(get("/api/users")).with(jwt()))
 //                .andExpect(status().isOk())
 //                .andReturn()
 //                .getResponse();
@@ -97,6 +99,7 @@ public class UserControllerTests {
                 .create();
 
         var request = post("/api/users")
+                .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
 
@@ -117,6 +120,7 @@ public class UserControllerTests {
         data.put("firstName", "Mike");
 
         var request = put("/api/users/" + testUser.getId())
+                .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(data));
 
@@ -129,7 +133,7 @@ public class UserControllerTests {
 
     @Test
     public void testShow() throws Exception {
-        var request = get("/api/users/" + testUser.getId());
+        var request = get("/api/users/" + testUser.getId()).with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andReturn();

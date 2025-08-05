@@ -19,4 +19,10 @@ public class UserUtils {
         var email = authentication.getName();
         return userRepository.findByEmail(email).get();
     }
+
+    public boolean isOwner(long userId) {
+        String ownersEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        String requestedEmail = userRepository.findById(userId).get().getEmail();
+        return requestedEmail.equals(ownersEmail);
+    }
 }
