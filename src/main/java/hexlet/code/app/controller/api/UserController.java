@@ -1,8 +1,8 @@
 package hexlet.code.app.controller.api;
 
-import hexlet.code.app.dto.UserCreateDTO;
-import hexlet.code.app.dto.UserDTO;
-import hexlet.code.app.dto.UserUpdateDTO;
+import hexlet.code.app.dto.user.UserCreateDTO;
+import hexlet.code.app.dto.user.UserDTO;
+import hexlet.code.app.dto.user.UserUpdateDTO;
 import hexlet.code.app.exception.ResourceNotFoundException;
 import hexlet.code.app.mapper.UserMapper;
 import hexlet.code.app.model.User;
@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 @EnableMethodSecurity
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class UserController {
     @Autowired
     private UserCreateService userService;
 
-    @GetMapping(path = "/users/{id}", produces = "application/json")
+    @GetMapping(path = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO show(@PathVariable Long id) {
         User user = userRepository.findById(id)
@@ -47,7 +47,7 @@ public class UserController {
         return userMapper.map(user);
     }
 
-    @GetMapping(path = "/users", produces = "application/json")
+    @GetMapping(path = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     ResponseEntity<List<UserDTO>> index() {
         List<User> users = userRepository.findAll();
@@ -59,13 +59,13 @@ public class UserController {
                 .body(result);
     }
 
-    @PostMapping(path = "/users", produces = "application/json")
+    @PostMapping(path = "", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(@Valid @RequestBody UserCreateDTO createDTO) {
         return userService.createUser(createDTO);
     }
 
-    @PutMapping(path = "/users/{id}", produces = "application/json")
+    @PutMapping(path = "/{id}", produces = "application/json")
     @PreAuthorize("@userUtils.isOwner(#id)")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO update(@RequestBody @Valid UserUpdateDTO dto, @PathVariable Long id) {
@@ -76,7 +76,7 @@ public class UserController {
         return userMapper.map(user);
     }
 
-    @DeleteMapping(path = "/users/{id}", produces = "application/json")
+    @DeleteMapping(path = "/{id}", produces = "application/json")
     @PreAuthorize("@userUtils.isOwner(#id)")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {

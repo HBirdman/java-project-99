@@ -1,14 +1,14 @@
 package hexlet.code.app.controller.api;
 
-//import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-//import hexlet.code.app.dto.UserDTO;
+import hexlet.code.app.dto.user.UserDTO;
 import hexlet.code.app.mapper.UserMapper;
 import hexlet.code.app.model.User;
 import hexlet.code.app.repository.UserRepository;
 import hexlet.code.app.util.ModelGenerator;
 import net.datafaker.Faker;
-//import org.assertj.core.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-//import java.util.List;
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -78,20 +78,20 @@ public class UserControllerTests {
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
 
-//    @Test
-//    public void testIndex() throws Exception {
-//        var response = mockMvc.perform(get("/api/users")).with(jwt()))
-//                .andExpect(status().isOk())
-//                .andReturn()
-//                .getResponse();
-//        var body = response.getContentAsString();
-//
-//        List<UserDTO> userDTOS = om.readValue(body, new TypeReference<>() {});
-//
-//        var actual = userDTOS.stream().map(u -> userMapper.map(u)).toList();
-//        var expected = userRepository.findAll();
-//        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
-//    }
+    @Test
+    public void testIndex() throws Exception {
+        var response = mockMvc.perform(get("/api/users").with(jwt()))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+        var body = response.getContentAsString();
+
+        List<UserDTO> userDTOS = om.readValue(body, new TypeReference<>() {});
+
+        var actual = userDTOS.stream().map(u -> userMapper.map(u)).toList();
+        var expected = userRepository.findAll();
+        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+    }
 
     @Test
     public void testCreate() throws Exception {
