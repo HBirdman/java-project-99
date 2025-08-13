@@ -37,7 +37,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTests {
+public class UserControllerTest {
 
     @Autowired
     private WebApplicationContext wac;
