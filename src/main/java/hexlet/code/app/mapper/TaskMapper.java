@@ -47,6 +47,12 @@ public abstract class TaskMapper implements BaseEntity {
     @Mapping(source = "assignee.id", target = "assigneeId")
     public abstract TaskDTO map(Task model);
 
+    @Mapping(source = "title", target = "name")
+    @Mapping(source = "content", target = "description")
+    @Mapping(source = "status", target = "taskStatus", qualifiedByName = "slugToModel")
+    @Mapping(source = "assigneeId", target = "assignee")
+    public abstract Task map(TaskDTO dto);
+
     @Named("slugToModel")
     public TaskStatus slugToModel(String slug) {
         return statusRepository.findBySlug(slug)

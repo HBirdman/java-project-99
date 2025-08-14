@@ -6,6 +6,7 @@ import hexlet.code.app.dto.status.TaskStatusDTO;
 import hexlet.code.app.mapper.TaskStatusMapper;
 import hexlet.code.app.mapper.UserMapper;
 import hexlet.code.app.model.TaskStatus;
+import hexlet.code.app.repository.TaskRepository;
 import hexlet.code.app.repository.TaskStatusRepository;
 import hexlet.code.app.service.CustomUserDetailsService;
 import hexlet.code.app.util.ModelGenerator;
@@ -48,6 +49,9 @@ class TaskStatusControllerTest {
     private TaskStatusRepository statusRepository;
 
     @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
     private TaskStatusMapper taskStatusMapper;
 
     private TaskStatus testTaskStatus;
@@ -67,6 +71,7 @@ class TaskStatusControllerTest {
 
     @BeforeEach
     public void setUp() {
+        taskRepository.deleteAll();
         statusRepository.deleteAll();
 
         mockMvc = MockMvcBuilders.webAppContextSetup(wac)

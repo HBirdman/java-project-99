@@ -12,6 +12,8 @@ import org.instancio.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @Component
 public class ModelGenerator {
@@ -24,6 +26,8 @@ public class ModelGenerator {
 
     @Autowired
     private Faker faker;
+
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @PostConstruct
     private void init() {
@@ -48,7 +52,7 @@ public class ModelGenerator {
                 .ignore(Select.field(Task::getAssignee))
                 .ignore(Select.field(Task::getTaskStatus))
                 .supply(Select.field(Task::getName), () -> faker.lorem().word())
-                .supply(Select.field(Task::getIndex), () -> faker.number().randomNumber())
+                .supply(Select.field(Task::getIndex), () -> (int) faker.number().randomNumber())
                 .supply(Select.field(Task::getDescription), () -> faker.lorem().sentence())
                 .toModel();
     }

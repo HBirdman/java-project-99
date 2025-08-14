@@ -10,18 +10,18 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @Setter
 public class TaskUpdateDTO {
     @NotNull
-    private int index;
+    private JsonNullable<Integer> index;
 
     @NotNull
-    private int assigneeId;
+    private JsonNullable<Integer> assigneeId;
 
     @NotNull
     @Size(min = 1)
     private JsonNullable<String> title;
 
     @NotNull
-    private String content;
+    private JsonNullable<String> content;
 
     @NotNull
-    private String status;
+    private JsonNullable<String> status;
 }
