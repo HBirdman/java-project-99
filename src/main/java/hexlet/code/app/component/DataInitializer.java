@@ -1,7 +1,9 @@
 package hexlet.code.app.component;
 
+import hexlet.code.app.model.Label;
 import hexlet.code.app.model.TaskStatus;
 import hexlet.code.app.model.User;
+import hexlet.code.app.repository.LabelRepository;
 import hexlet.code.app.repository.TaskStatusRepository;
 import hexlet.code.app.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,9 @@ public class DataInitializer implements ApplicationRunner {
     @Autowired
     private TaskStatusRepository statusRepository;
 
+    @Autowired
+    private LabelRepository labelRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         String email = "hexlet@example.com";
@@ -41,5 +46,12 @@ public class DataInitializer implements ApplicationRunner {
             status.setSlug(value);
             statusRepository.save(status);
         });
+
+        Label feature = new Label();
+        feature.setName("feature");
+        labelRepository.save(feature);
+        Label bug = new Label();
+        bug.setName("bug");
+        labelRepository.save(bug);
     }
 }

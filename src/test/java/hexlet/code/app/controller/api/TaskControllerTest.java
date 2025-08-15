@@ -119,9 +119,9 @@ public class TaskControllerTest {
 
         var body = response.getContentAsString();
 
-        List<TaskDTO> statusDTO = om.readValue(body, new TypeReference<>() {
+        List<TaskDTO> taskDTO = om.readValue(body, new TypeReference<>() {
         });
-        var actual = statusDTO.stream()
+        var actual = taskDTO.stream()
                 .map(p -> taskMapper.map(p))
                 .toList();
         var expected = taskRepository.findAll();

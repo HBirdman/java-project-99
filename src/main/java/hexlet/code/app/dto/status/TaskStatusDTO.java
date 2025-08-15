@@ -1,5 +1,6 @@
 package hexlet.code.app.dto.status;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 public class TaskStatusDTO {
     private Long id;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
     private String name;
