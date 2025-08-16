@@ -93,8 +93,7 @@ class LabelControllerTest {
 
         var body = result.getResponse().getContentAsString();
 
-        List<LabelDTO> labelDTO = om.readValue(body, new TypeReference<>() {
-        });
+        List<LabelDTO> labelDTO = om.readValue(body, new TypeReference<>() { });
         var actual = labelDTO.stream()
                 .map(p -> labelMapper.map(p))
                 .toList();

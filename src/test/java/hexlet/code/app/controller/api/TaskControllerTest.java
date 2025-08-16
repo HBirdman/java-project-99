@@ -7,9 +7,11 @@ import hexlet.code.app.dto.task.TaskDTO;
 import hexlet.code.app.dto.task.TaskUpdateDTO;
 import hexlet.code.app.mapper.TaskMapper;
 import hexlet.code.app.mapper.UserMapper;
+import hexlet.code.app.model.Label;
 import hexlet.code.app.model.Task;
 import hexlet.code.app.model.TaskStatus;
 import hexlet.code.app.model.User;
+import hexlet.code.app.repository.LabelRepository;
 import hexlet.code.app.repository.TaskRepository;
 import hexlet.code.app.repository.TaskStatusRepository;
 import hexlet.code.app.repository.UserRepository;
@@ -28,7 +30,6 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -62,6 +63,9 @@ public class TaskControllerTest {
     private TaskStatusRepository taskStatusRepository;
 
     @Autowired
+    private LabelRepository labelRepository;
+
+    @Autowired
     private TaskMapper taskMapper;
 
     private Task testTask;
@@ -69,6 +73,8 @@ public class TaskControllerTest {
     private User testUser;
 
     private TaskStatus testTaskStatus;
+
+    private Label testLabel;
 
     @Autowired
     private ModelGenerator modelGenerator;
@@ -103,9 +109,13 @@ public class TaskControllerTest {
         testTaskStatus = Instancio.of(modelGenerator.getStatusModel()).create();
         taskStatusRepository.save(testTaskStatus);
 
+        testLabel = Instancio.of(modelGenerator.getLabelModel()).create();
+        labelRepository.save(testLabel);
+
         testTask = Instancio.of(modelGenerator.getTaskModel()).create();
         testTask.setAssignee(testUser);
         testTask.setTaskStatus(testTaskStatus);
+        testTask.getLabels().add(testLabel);
         taskRepository.save(testTask);
         token = jwt().jwt(builder -> builder.subject("hexlet@example.com"));
     }
@@ -121,6 +131,28 @@ public class TaskControllerTest {
 
         List<TaskDTO> taskDTO = om.readValue(body, new TypeReference<>() {
         });
+        var actual = taskDTO.stream()
+                .map(p -> taskMapper.map(p))
+                .toList();
+        var expected = taskRepository.findAll();
+        assertThat(actual).containsExactlyInAnyOrderElementsOf(expected);
+    }
+
+    @Test
+    public void testIndexWithFilters() throws Exception {
+        var response = mockMvc.perform(get("/api/tasks"
+                        + "?titleCont=" + testTask.getName().substring(0, 2).toLowerCase()
+                        + "&labelId=" + testTask.getLabels().getFirst().getId()
+                        + "&status=" + testTask.getTaskStatus().getSlug()
+                        + "&assigneeId=" + testTask.getAssignee().getId())
+                        .with(jwt()))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        var body = response.getContentAsString();
+
+        List<TaskDTO> taskDTO = om.readValue(body, new TypeReference<>() { });
         var actual = taskDTO.stream()
                 .map(p -> taskMapper.map(p))
                 .toList();
