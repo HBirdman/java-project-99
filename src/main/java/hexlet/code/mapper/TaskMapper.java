@@ -80,7 +80,7 @@ public abstract class TaskMapper implements BaseEntity {
             }
             return labels;
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Named("labelToId")
@@ -92,6 +92,6 @@ public abstract class TaskMapper implements BaseEntity {
             }
             return ids;
         }
-        return null;
+        return new ArrayList<>();
     }
 }
