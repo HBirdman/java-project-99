@@ -3,6 +3,7 @@ plugins {
 	jacoco
 	checkstyle
 	id("io.sentry.jvm.gradle") version "5.9.0"
+	id("org.sonarqube") version "6.2.0.5505"
 	id("io.freefair.lombok") version "8.6"
 	id("org.springframework.boot") version "3.5.4"
 	id("io.spring.dependency-management") version "1.1.7"
@@ -59,4 +60,11 @@ sentry {
 	org = "bird-maaan"
 	projectName = "taskManager"
 	authToken = System.getenv("SENTRY_AUTH_TOKEN")
+}
+
+sonar {
+	properties {
+		property("sonar.projectKey", "HBirdman_java-project-99")
+		property("sonar.organization", "hbirdman")
+	}
 }
