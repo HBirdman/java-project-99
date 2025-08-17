@@ -11,10 +11,10 @@ import java.util.List;
 @Setter
 public class TaskUpdateDTO {
     @NotNull
-    private JsonNullable<Integer> index;
+    private JsonNullable<Long> index;
 
     @NotNull
-    private JsonNullable<Integer> assigneeId;
+    private JsonNullable<Long> assigneeId;
 
     @NotNull
     @Size(min = 1)

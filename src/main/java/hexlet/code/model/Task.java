@@ -38,7 +38,7 @@ public class Task implements BaseEntity {
     @Size(min = 1)
     private String name;
 
-    private int index;
+    private Long index;
 
     private String description;
 

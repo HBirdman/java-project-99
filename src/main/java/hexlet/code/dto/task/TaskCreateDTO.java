@@ -10,9 +10,9 @@ import java.util.List;
 @Getter
 @Setter
 public class TaskCreateDTO {
-    private int index;
+    private Long index;
 
-    private int assigneeId;
+    private Long assigneeId;
 
     @NotNull
     @Size(min = 1)

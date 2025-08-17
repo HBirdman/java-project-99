@@ -12,12 +12,12 @@ import java.util.List;
 public class TaskDTO {
     private Long id;
 
-    private int index;
+    private Long index;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createAt;
 
-    private int assigneeId;
+    private Long assigneeId;
 
     private String title;
 

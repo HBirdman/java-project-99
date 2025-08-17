@@ -186,7 +186,7 @@ public class TaskControllerTest {
 
         var data = new TaskCreateDTO();
         data.setIndex(testTask.getIndex());
-        data.setAssigneeId(Math.toIntExact(testTask.getAssignee().getId()));
+        data.setAssigneeId(testTask.getAssignee().getId());
         data.setTitle(testTask.getName());
         data.setContent(testTask.getDescription());
         data.setStatus(testTask.getTaskStatus().getSlug());
