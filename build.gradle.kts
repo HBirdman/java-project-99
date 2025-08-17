@@ -62,9 +62,24 @@ sentry {
 	authToken = System.getenv("SENTRY_AUTH_TOKEN")
 }
 
+jacoco {
+	toolVersion = "0.8.10"
+}
+
+tasks.jacocoTestReport {
+	dependsOn(tasks.test)
+	reports {
+		xml.required = true
+		csv.required = false
+		html.required = true
+	}
+}
+
 sonar {
 	properties {
 		property("sonar.projectKey", "HBirdman_java-project-99")
 		property("sonar.organization", "hbirdman")
+		property("sonar.coverage.jacoco.xmlReportPaths",
+			"${layout.buildDirectory}/reports/jacoco/test/jacocoTestReport.xml")
 	}
 }
