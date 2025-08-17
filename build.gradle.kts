@@ -2,6 +2,7 @@ plugins {
 	application
 	jacoco
 	checkstyle
+	id("io.sentry.jvm.gradle") version "5.9.0"
 	id("io.freefair.lombok") version "8.6"
 	id("org.springframework.boot") version "3.5.4"
 	id("io.spring.dependency-management") version "1.1.7"
@@ -52,4 +53,10 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+sentry {
+	org = "bird-maaan"
+	projectName = "taskManager"
+	authToken = System.getenv("SENTRY_AUTH_TOKEN")
 }
