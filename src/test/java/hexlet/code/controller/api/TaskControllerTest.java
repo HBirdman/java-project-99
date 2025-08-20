@@ -142,7 +142,7 @@ public class TaskControllerTest {
     public void testIndexWithFilters() throws Exception {
         var response = mockMvc.perform(get("/api/tasks"
                         + "?titleCont=" + testTask.getName().substring(0, 2).toLowerCase()
-                        + "&labelId=" + testTask.getLabels().getFirst().getId()
+                        + "&labelId=" + testTask.getLabels().stream().findFirst().get().getId()
                         + "&status=" + testTask.getTaskStatus().getSlug()
                         + "&assigneeId=" + testTask.getAssignee().getId())
                         .with(jwt()))

@@ -64,6 +64,7 @@ class TaskStatusControllerTest {
 
     @Autowired
     private UserMapper userMapper;
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 

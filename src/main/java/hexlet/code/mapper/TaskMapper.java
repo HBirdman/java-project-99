@@ -19,7 +19,9 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Mapper(
         uses = { JsonNullableMapper.class, ReferenceMapper.class },
@@ -71,20 +73,15 @@ public abstract class TaskMapper implements BaseEntity {
     }
 
     @Named("idToLabel")
-    public List<Label> idToLabel(List<Long> ids) {
+    public Set<Label> idToLabel(List<Long> ids) {
         if (ids != null) {
-            List<Label> labels = new ArrayList<>();
-            for (var id : ids) {
-                var label = labelRepository.findById(id).orElseThrow();
-                labels.add(label);
-            }
-            return labels;
+            return new HashSet<>(labelRepository.findAllById(ids));
         }
-        return new ArrayList<>();
+        return new HashSet<>();
     }
 
     @Named("labelToId")
-    public List<Long> labelToIds(List<Label> labels) {
+    public List<Long> labelToIds(Set<Label> labels) {
         if (labels != null) {
             List<Long> ids = new ArrayList<>();
             for (var label : labels) {

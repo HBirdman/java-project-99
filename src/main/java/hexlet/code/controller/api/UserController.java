@@ -3,13 +3,9 @@ package hexlet.code.controller.api;
 import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.dto.user.UserDTO;
 import hexlet.code.dto.user.UserUpdateDTO;
-import hexlet.code.exception.ResourceNotFoundException;
-import hexlet.code.mapper.UserMapper;
-import hexlet.code.model.User;
-import hexlet.code.repository.UserRepository;
-import hexlet.code.service.UserCreateService;
+import hexlet.code.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,58 +24,43 @@ import java.util.List;
 @RestController
 @EnableMethodSecurity
 @RequestMapping("/api/users")
+@AllArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private UserCreateService userService;
+    private final UserService userService;
 
     @GetMapping(path = "/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO show(@PathVariable Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
-        return userMapper.map(user);
+        return userService.show(id);
     }
 
     @GetMapping(path = "", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     ResponseEntity<List<UserDTO>> index() {
-        List<User> users = userRepository.findAll();
-        List<UserDTO> result = users.stream()
-                .map(u -> userMapper.map(u))
-                .toList();
+        List<UserDTO> users = userService.index();
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(users.size()))
-                .body(result);
+                .body(users);
     }
 
     @PostMapping(path = "", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(@Valid @RequestBody UserCreateDTO createDTO) {
-        return userService.createUser(createDTO);
+        return userService.create(createDTO);
     }
 
     @PutMapping(path = "/{id}", produces = "application/json")
     @PreAuthorize("@userUtils.isOwner(#id)")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO update(@RequestBody @Valid UserUpdateDTO dto, @PathVariable Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
-        userMapper.update(dto, user);
-        userRepository.save(user);
-        return userMapper.map(user);
+        return userService.update(dto, id);
     }
 
     @DeleteMapping(path = "/{id}", produces = "application/json")
     @PreAuthorize("@userUtils.isOwner(#id)")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        userRepository.deleteById(id);
+        userService.delete(id);
     }
 }
