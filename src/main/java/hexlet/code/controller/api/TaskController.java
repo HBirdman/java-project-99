@@ -4,8 +4,6 @@ import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
-import hexlet.code.mapper.TaskMapper;
-import hexlet.code.repository.TaskRepository;
 import hexlet.code.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -28,8 +26,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TaskController {
 
-    private final TaskRepository taskRepository;
-    private final TaskMapper taskMapper;
     private final TaskService taskService;
 
     @GetMapping(path = "/{id}")
