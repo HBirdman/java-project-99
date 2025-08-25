@@ -4,7 +4,6 @@ import hexlet.code.dto.task.TaskCreateDTO;
 import hexlet.code.dto.task.TaskDTO;
 import hexlet.code.dto.task.TaskUpdateDTO;
 import hexlet.code.exception.ResourceNotFoundException;
-import hexlet.code.model.BaseEntity;
 import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
@@ -30,7 +29,7 @@ import java.util.Set;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 
-public abstract class TaskMapper implements BaseEntity {
+public abstract class TaskMapper {
 
     @Autowired
     private TaskStatusRepository statusRepository;
