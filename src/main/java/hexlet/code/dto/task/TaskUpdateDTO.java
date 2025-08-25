@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class TaskUpdateDTO {
-    @NotNull
+
     private JsonNullable<Long> index;
 
     @NotNull
