@@ -185,7 +185,7 @@ public class TaskControllerTest {
         taskRepository.deleteById(testTask.getId());
 
         var data = new TaskCreateDTO();
-        data.setIndex(JsonNullable.of(testTask.getIndex()));
+        data.setIndex(testTask.getIndex());
         data.setAssigneeId(testTask.getAssignee().getId());
         data.setTitle(testTask.getName());
         data.setContent(testTask.getDescription());
